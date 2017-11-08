@@ -1,0 +1,24 @@
+---
+- name: Create shared_config directory
+  file: path={{ docker_folder }}/shared_config state=directory
+  
+- name: Create conf.d directory
+  file: path={{ docker_folder }}/shared_config/conf.d state=directory
+  
+- name: Create apache_root_dir_http_no_seguro_pruebas directory
+  file: path={{ docker_folder }}/shared_config/apache_root_dir_http_no_seguro_pruebas state=directory
+
+- name: Copy httpd/conf
+  copy:
+    src: httpd/conf
+    dest: "{{ docker_folder }}/shared_config"
+
+- name: conf.d templates 
+  template: src={{ item }} dest={{ docker_folder }}/shared_config/conf.d/{{ item | basename | regex_replace('\.j2','') }}
+  with_fileglob:
+    - ../templates/conf.d/*.j2
+
+- name: Copy conf.modules.d
+  copy:
+    src:  httpd/conf.modules.d
+    dest: "{{ docker_folder }}/shared_config"

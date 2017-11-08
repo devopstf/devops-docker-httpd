@@ -1,0 +1,9 @@
+[Unit]
+Description=docker-httpd Service  
+After=docker.service  
+Requires=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker-compose -f {{ docker_folder }}/docker-compose.yml down
+ExecStart=/usr/bin/docker-compose -f {{ docker_folder }}/docker-compose.yml up
+ExecStop=/usr/bin/docker-compose -f {{ docker_folder }}/docker-compose.yml stop  

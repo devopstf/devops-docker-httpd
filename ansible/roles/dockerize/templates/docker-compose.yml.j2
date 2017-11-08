@@ -1,0 +1,12 @@
+docker-apache:
+  build: ./build
+  hostname: docker-apache
+  tty: true
+  ports:
+    - {{ http_port }}:80
+    - {{ https_port }}:443
+  volumes:
+    - {{ docker_folder }}/shared_config/conf:/etc/httpd/conf/
+    - {{ docker_folder }}/shared_config/conf.modules.d/:/etc/httpd/conf.modules.d/
+    - {{ docker_folder }}/shared_config/conf.d/:/etc/httpd/conf.d/
+    - {{ docker_folder }}/shared_config/modules/:/etc/httpd/modules/
